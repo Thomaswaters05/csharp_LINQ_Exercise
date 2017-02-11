@@ -33,7 +33,7 @@ namespace LINQ_Practice
         [TestMethod]
         public void GetAllCohortsByName()
         {
-            var expected = PracticeData/*FILL IN LINQ EXPRESSION*/.ToList();
+            var expected = PracticeData.ToList();
             CollectionAssert.AreEqual(expected, new List<Cohort> { CohortBuilder.Cohort2, CohortBuilder.Cohort4, CohortBuilder.Cohort1, CohortBuilder.Cohort3 });
         }
         
