@@ -29,14 +29,14 @@ namespace LINQ_Practice
         [TestMethod]
         public void GetAllCohortsWithZacharyZohanAsPrimaryOrJuniorInstructor()
         {
-            var ActualCohorts = PracticeData.ToList();
+            var ActualCohorts = PracticeData.Where(zz => zz.PrimaryInstructor.FirstName == "Zachary" && zz.PrimaryInstructor.LastName == "Zohan" || zz.JuniorInstructors.Any(xx => xx.FirstName == "Zachary" && xx.LastName == "Zohan")).ToList();
             CollectionAssert.AreEqual(ActualCohorts, new List<Cohort> { CohortBuilder.Cohort2, CohortBuilder.Cohort3 });
         }
 
         [TestMethod]
         public void GetAllCohortsWhereFullTimeIsFalseAndAllInstructorsAreActive()
         {
-            var ActualCohorts = PracticeData/*FILL IN LINQ EXPRESSION*/.ToList();
+            var ActualCohorts = PracticeData.Where(xx => xx.FullTime == false && xx.PrimaryInstructor.Active == true && xx.JuniorInstructors.All(jr => jr.Active == true)).ToList();
             CollectionAssert.AreEqual(ActualCohorts, new List<Cohort> { CohortBuilder.Cohort1 });
         }
 
@@ -57,7 +57,7 @@ namespace LINQ_Practice
         [TestMethod]
         public void GetYoungestStudent()
         {
-            var student = PracticeData/*FILL IN LINQ EXPRESSION*/;
+            var student = PracticeData.Max(youngStud => youngStud.Students.Min(youngStud2 => youngStud2.Birthday.Year));
             Assert.AreEqual(student, CohortBuilder.Student3);
         }
 
