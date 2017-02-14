@@ -36,35 +36,35 @@ namespace LINQ_Practice
         [TestMethod]
         public void GetAllCohortsWhereFullTimeIsFalseAndAllInstructorsAreActive()
         {
-            var ActualCohorts = PracticeData.Where(xx => xx.FullTime == false && xx.PrimaryInstructor.Active == true && xx.JuniorInstructors.All(jr => jr.Active == true)).ToList();
+            var ActualCohorts = PracticeData.Where(xx => xx.FullTime == false && xx.PrimaryInstructor.Active == true && xx.JuniorInstructors.All(junior => junior.Active == true)).ToList();
             CollectionAssert.AreEqual(ActualCohorts, new List<Cohort> { CohortBuilder.Cohort1 });
         }
 
         [TestMethod]
         public void GetAllCohortsWhereAStudentOrInstructorFirstNameIsKate()
         {
-            var ActualCohorts = PracticeData/*FILL IN LINQ EXPRESSION*/.ToList();
+            var ActualCohorts = PracticeData.Where(xx => xx.JuniorInstructors.Any(yy => yy.FirstName == "Kate") || xx.PrimaryInstructor.FirstName == "Kate" || xx.Students.Any(yy => yy.FirstName == "Kate")).ToList();
             CollectionAssert.AreEqual(ActualCohorts, new List<Cohort> { CohortBuilder.Cohort1, CohortBuilder.Cohort3, CohortBuilder.Cohort4 });
         }
 
         [TestMethod]
         public void GetOldestStudent()
         {
-            var student = PracticeData/*FILL IN LINQ EXPRESSION*/;
+            var student = PracticeData.SelectMany(xx => xx.Students).OrderBy(yy => yy.Birthday).First();
             Assert.AreEqual(student, CohortBuilder.Student18);
         }
 
         [TestMethod]
         public void GetYoungestStudent()
         {
-            var student = PracticeData.Max(youngStud => youngStud.Students.Min(youngStud2 => youngStud2.Birthday.Year));
+            var student = PracticeData.SelectMany(xx => xx.Students).OrderBy(yyy => yyy.Birthday).Last(); ;
             Assert.AreEqual(student, CohortBuilder.Student3);
         }
 
         [TestMethod]
         public void GetAllInactiveStudentsByLastName()
         {
-            var ActualStudents = PracticeData/*FILL IN LINQ EXPRESSION*/.ToList();
+            var ActualStudents = PracticeData.SelectMany(xx => xx.Students).Where(yy => yy.Active == false).OrderBy(zz => zz.LastName).ToList();
             CollectionAssert.AreEqual(ActualStudents, new List<Student> { CohortBuilder.Student2, CohortBuilder.Student11, CohortBuilder.Student12, CohortBuilder.Student17 });
         }
     }
